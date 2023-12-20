@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+
 	"wtk/biz"
 	"wtk/biz/credential"
 	"wtk/ext/secure"
@@ -16,15 +17,15 @@ import (
 )
 
 func main() {
-	if err := run(os.Args); err != nil {
+	if err := run(); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func run(args []string) error {
+func run() error {
 	host := flag.String("host", "0.0.0.0", "host name to listen on")
 	port := flag.Int("port", 8000, "port to listen on")
-	static := flag.String("static", "./ui/cli/", "static files folder")
+	static := flag.String("static", "./ui/web/", "static files folder")
 	help := flag.Bool("help", false, "show command usage")
 	flag.Parse()
 
@@ -38,7 +39,7 @@ func run(args []string) error {
 		return fmt.Errorf("impossible d'initialiser le module de sécurité: %w", err)
 	}
 
-	var initSchema = false
+	initSchema := false
 
 	// storage, initSchema, err := useRamDB()
 	storage, initSchema, err := useSqliteDB()
@@ -46,7 +47,7 @@ func run(args []string) error {
 		return fmt.Errorf("impossible d'obtenir une base: %w", err)
 	}
 	defer func() {
-		err := storage.Close()
+		err = storage.Close()
 		if err != nil {
 			log.Fatalf("closing database: %s", err)
 		}
@@ -99,7 +100,7 @@ func useSqliteDB() (store biz.Storage, needSchema bool, err error) {
 	const databasePath = "database.db"
 	_, err = os.Stat(databasePath)
 	if errors.Is(err, os.ErrNotExist) {
-		_, err := os.Create(databasePath)
+		_, err = os.Create(databasePath)
 		if err != nil {
 			return store, false, err
 		}
