@@ -50,7 +50,11 @@ L'architecture côté serveur respecte les principes de séparation des responsa
 
 - 'biz' est en charge de la logique métier et de la structuration des données. C'est ici qu'on devrait trouver ce qui fait la particularité de l'application.
 
-- 'ui' contient les interfaces utilisateurs (au sens large) : 'api' pour les interfaces http, 'cli' pour l'interface humain-machine (client svelte), et 'ops' pour les interfaces opérateurs (lancement du serveur).
+- 'ui' contient les interfaces utilisateurs (au sens large) :
+    * 'api' pour les interfaces http
+    * 'web' pour l'interface web humain-machine (client svelte)
+
+- 'cmd' contient les commandes de l'application. A minima, il contient le serveur http dans le dossier "server". 
 
 - 'ext' regroupe les éléments externes à l'application, comme le stockage des données.
 
